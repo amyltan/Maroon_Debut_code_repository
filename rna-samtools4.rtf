@@ -1,0 +1,41 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\csgray\c0;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0 #!/bin/bash\
+##ENVIRONMENT SETTINGS; CHANGE WITH CAUTION\
+#SBATCH --export=NONE        #Do not propagate environment\
+#SBATCH --get-user-env=L     #Replicate login environment\
+\
+##NECESSARY JOB SPECIFICATIONS\
+#SBATCH --job-name=samtools    \
+#SBATCH --time=24:00:00            \
+#SBATCH --ntasks=1                \
+#SBATCH --ntasks-per-node=1        \
+#SBATCH --mem=8192M              \
+#SBATCH --output=/scratch/user/atan/MDII-RNAseq/slurm-out/rna-samtools4.%j    \
+#SBATCH --mail-type=ALL\
+#SBATCH --mail-user=atan@tamu.edu\
+\
+module purge \
+module load SAMtools/1.16.1-GCC-11.2.0 \
+\
+for FILE in /scratch/user/atan/MDII-RNAseq/RNAseq-processing-MDII-12OCT23/Aligned_Reads/C*/*-trim.sam \
+do \
+	BAM1=$(echo $FILE|sed 's/-trim.sam/-trim.bam/') \
+	samtools view -b -S $FILE>$BAM1 \
+	BAM2=$(echo $BAM1|sed 's/-trim.bam/-sort.bam/')\
+	samtools sort -n -o $BAM2 -O BAM $BAM1 \
+	BAM3=$(echo $BAM2|sed 's/-sort.bam/-fixmate.bam/') \
+	samtools fixmate -m $BAM2 $BAM3 \
+	BAM4=$(echo $BAM3|sed 's/-fixmate.bam/-coordsort.bam/') \
+	samtools sort -o $BAM4 $BAM3 \
+	BAM5=$(echo $BAM4|sed 's/-coordsort.bam/-markdup.bam/') \
+	samtools markdup -r -s $BAM4 $BAM5 \
+	BAM6=$(echo $BAM5|sed 's/-markdup.bam/-final.bam/') \
+	samtools view -q 30 -o $BAM6 $BAM5 \
+done \
+}

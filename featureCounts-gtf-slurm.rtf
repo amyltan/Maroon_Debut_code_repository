@@ -1,0 +1,50 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\csgray\c0;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0 #!/bin/bash\
+##ENVIRONMENT SETTINGS; CHANGE WITH CAUTION\
+#SBATCH --export=NONE        #Do not propagate environment\
+#SBATCH --get-user-env=L     #Replicate login environment\
+\
+##NECESSARY JOB SPECIFICATIONS\
+#SBATCH --job-name=featureCounts    \
+#SBATCH --time=08:00:00            \
+#SBATCH --ntasks=1                \
+#SBATCH --ntasks-per-node=1        \
+#SBATCH --mem=8192M               \
+#SBATCH --output=/scratch/user/atan/MDII-RNAseq/slurm-out/featureCounts.%j    \
+#SBATCH --mail-type=ALL\
+#SBATCH --mail-user=atan@tamu.edu\cf0 \CocoaLigature1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+module purge \
+module load \cf2 \CocoaLigature0 Subread/2.0.0-GCC-8.3.0 \
+\
+#output directory path \
+OUTPUT_DIR="/scratch/user/atan/MDII-RNAseq/RNAseq-processing-MDII-12OCT23/Aligned_Reads/" \
+\
+#path to annotation file \
+ANNOTATION="/scratch/user/atan/MDII-RNAseq/RNAseq-processing-MDII-12OCT23/Aligned_Reads/Aligned_SAMS/genomic.gtf" \
+\
+#sample list command \
+sampleList=(\cf0 \CocoaLigature1 C8St14 C9St14 C10St14 C8St18 C9St18 C10St18 C11F14 C12F14 C13F14 C11F18 C12F18 C13F18) \
+\
+allList=""\
+for FILE in $\{sampleList[*]\}\
+do\
+allList="$allList \cf2 \CocoaLigature0 /scratch/user/atan/MDII-RNAseq/RNAseq-processing-MDII-12OCT23/Aligned_Reads/$\{FILE\}*/*-final.bam" \
+done \
+echo $allList\
+\
+eval command1=\\$$(echo allList) \
+\
+featureCounts \\\
+	-a $ANNOTATION \\\
+	-o $\{OUTPUT_DIR\}/all_counts.txt \\\
+	-g gene_id \\\
+	-p \\\
+	$(echo $command1)}
