@@ -1,0 +1,38 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\csgray\c0;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0 #!/bin/bash\
+##ENVIRONMENT SETTINGS; CHANGE WITH CAUTION\
+#SBATCH --export=NONE        #Do not propagate environment\
+#SBATCH --get-user-env=L     #Replicate login environment\
+\
+##NECESSARY JOB SPECIFICATIONS\
+#SBATCH --account=122719554466 ##startup\
+#SBATCH --job-name=macs2-v5new     \
+#SBATCH --time=12:00:00            \
+#SBATCH --ntasks=1                \
+#SBATCH --ntasks-per-node=1        \
+#SBATCH --mem=8192M               \
+#SBATCH --output=/scratch/user/atan/MDII-ATACseq/slurm-out/macs2-v5new.%j    \
+#SBATCH --mail-type=ALL\
+#SBATCH --mail-user=atan@tamu.edu\
+\
+module purge\
+module load MACS2/2.1.2.1-intel-2019a-Python-2.7.15 \
+\
+cd /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads_new_5 \
+\
+mkdir peaks-files-v5new \
+\
+out=$(echo peaks-files-v5new/)\
+in=$(echo *_v5new_final.bam)\
+\
+for FILE in C* \
+do \
+	macs2 callpeak -n $FILE -g 9.218e+08 --outdir $out -t $FILE/$in \
+done\
+}

@@ -1,0 +1,39 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\csgray\c0;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0 #!/bin/bash\
+##ENVIRONMENT SETTINGS; CHANGE WITH CAUTION\
+#SBATCH --export=NONE        #Do not propagate environment\
+#SBATCH --get-user-env=L     #Replicate login environment\
+\
+##NECESSARY JOB SPECIFICATIONS\
+#SBATCH --job-name=FRiP    \
+#SBATCH --time=12:00:00            \
+#SBATCH --ntasks=1                \
+#SBATCH --ntasks-per-node=1        \
+#SBATCH --mem=8192M              \
+#SBATCH --output=/scratch/user/atan/MDII-ATACseq/slurm-out/FRiP.%j    \
+#SBATCH --mail-type=ALL\
+#SBATCH --mail-user=atan@tamu.edu\
+\
+module purge \
+module load SAMtools/1.16.1-GCC-11.2.0\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \CocoaLigature1 module load \cf2 \CocoaLigature0 BEDTools/2.29.2-GCC-9.3.0\
+\
+\cf0 \CocoaLigature1 for FILE in \cf2 \CocoaLigature0 /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C*/*nomt_final.bam\
+do \
+\cf0 \CocoaLigature1 	echo $FILE >> \cf2 \CocoaLigature0 /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/\cf0 \CocoaLigature1 total_read_counts.txt\
+	samtools view -c $FILE >> \cf2 \CocoaLigature0 /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/\cf0 \CocoaLigature1 total_read_counts.txt\
+done\
+\
+for PEAKS in \cf2 \CocoaLigature0 /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/peaks-files2/\cf0 \CocoaLigature1 *.narrowPeak \
+do \
+	echo $PEAKS >> \cf2 \CocoaLigature0 /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/\cf0 \CocoaLigature1 reads_in_peaks_counts.txt\
+	bedtools sort -i $PEAKS | bedtools merge -i stdin | bedtools intersect -u -a $FILE -b stdin -ubam | samtools view -c >> \cf2 \CocoaLigature0 /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/\cf0 \CocoaLigature1 reads_in_peaks_counts.txt\
+done\
+}

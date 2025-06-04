@@ -1,0 +1,31 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\csgray\c0;}
+\margl1440\margr1440\vieww19480\viewh10660\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0 #!/bin/bash\
+##ENVIRONMENT SETTINGS; CHANGE WITH CAUTION\
+#SBATCH --export=NONE        #Do not propagate environment\
+#SBATCH --get-user-env=L     #Replicate login environment\
+\
+##NECESSARY JOB SPECIFICATIONS\
+#SBATCH --job-name=mergedBamtoBed\
+#SBATCH --time=08:00:00\
+#SBATCH --ntasks=1\
+#SBATCH --ntasks-per-node=1\
+#SBATCH --mem=8192M\
+#SBATCH --output=/scratch/user/atan/atan_Terra_transfer/MDII-ATACseq/slurm-out/mergeBamtoBed.%j\
+#SBATCH --mail-type=ALL\
+#SBATCH --mail-user=atan@tamu.edu\
+\
+module purge\
+module load GCC/8.3.0\
+module load GCC/9.3.0\
+module load BEDTools/2.29.2\
+\
+cd /scratch/user/atan/atan_Terra_transfer/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/mergedBamFasta\
+\
+bedtools bamtobed -i atac_merged_final.bam > atac_merged_final.bed\
+}

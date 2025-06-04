@@ -1,0 +1,37 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\csgray\c0;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0 #!/bin/bash\
+##ENVIRONMENT SETTINGS; CHANGE WITH CAUTION\
+#SBATCH --export=NONE        #Do not propagate environment\
+#SBATCH --get-user-env=L     #Replicate login environment\
+\
+##NECESSARY JOB SPECIFICATIONS\
+#SBATCH --job-name=htseq-12s     \
+#SBATCH --time=24:00:00            \
+#SBATCH --ntasks=12                \
+#SBATCH --ntasks-per-node=1        \
+#SBATCH --mem=8192M              \
+#SBATCH --output=/scratch/user/atan/MDII-ATACseq/slurm-out/htseq-12s.%j    \
+#SBATCH --mail-type=ALL\
+#SBATCH --mail-user=atan@tamu.edu\
+\
+module purge \
+module load HTSeq/0.12.3-foss-2020a-Python-3.8.2\
+\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C10St14/C10St14_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C10St14/C10St14_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C10St18/C10St18_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C10St18/C10St18_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C11F14/C11F14_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C11F14/C11F14_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C11F18/C11F18_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C11F18/C11F18_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C12F14/C12F14_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C12F14/C12F14_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C12F18/C12F18_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C12F18/C12F18_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C13F14/C13F14_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C13F14/C13F14_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C13F18/C13F18_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C13F18/C13F18_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C8St14/C8St14_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C8St14/C8St14_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C8St18/C8St18_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C8St18/C8St18_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C9St14/C9St14_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C9St14/C9St14_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff\
+htseq-count -r pos -t exon --additional-attr gene_id-rna -c /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/C9St18/C9St18_counts /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Aligned_Reads/C9St18/C9St18_filt_final.bam /scratch/user/atan/MDII-ATACseq/ATACseq-July23-Novogene-dwnldfile/processing_ATACseq_MDII-23-July/Spurp_genome/Spur5.0.adjusted.20210819.gff}
