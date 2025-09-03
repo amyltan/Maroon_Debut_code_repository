@@ -1,5 +1,4 @@
 #DESeq2 script for MDII 
-#Starting with a clean copy because of changes I'm making based on revision suggestions 
 
 setwd("~/Desktop/R/RNAseq_MDII/")
 
